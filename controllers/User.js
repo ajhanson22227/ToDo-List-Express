@@ -1,6 +1,6 @@
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 exports.create = async (req, res) => {
   //check if username exists
@@ -8,7 +8,7 @@ exports.create = async (req, res) => {
     username: req.body.username,
   });
   if (usernameExist) {
-    return res.status(400).json({ err: "Username Already Exists" });
+    return res.status(400).json({ err: 'Username Already Exists' });
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -31,13 +31,13 @@ exports.login = async (req, res) => {
   //check for username in db
   const user = await User.findOne({ username: req.body.username });
   if (!user) {
-    return res.status(400).json({ loginError: "Invalid username" });
+    return res.status(400).json({ loginError: 'Invalid username' });
   }
 
   //check if password is correct
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) {
-    return res.status(400).json({ passwordError: "Invalid Password" });
+    return res.status(400).json({ passwordError: 'Invalid Password' });
   }
 
   //create and sign user token
