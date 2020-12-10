@@ -1,14 +1,14 @@
-const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const User = require('../models/User');
 
 exports.create = async (req, res) => {
-  //check if username exists
+  // check if username exists
   const usernameExist = await User.findOne({
     username: req.body.username,
   });
   if (usernameExist) {
-    return res.status(400).json({ err: 'Username Already Exists' });
+    return res.send({ err: 'Username Already Exists' });
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -21,29 +21,32 @@ exports.create = async (req, res) => {
 
   try {
     await user.save();
-    return;
+    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    res.send({ user: { username: user.username, token } });
   } catch (err) {
     res.status(400).json(err);
   }
 };
 
 exports.login = async (req, res) => {
-  //check for username in db
+  // check for username in db
   const user = await User.findOne({ username: req.body.username });
   if (!user) {
-    return res.status(400).json({ loginError: 'Invalid username' });
+    return res.status(400).send({ err: 'Invalid username' });
   }
 
-  //check if password is correct
+  // check if password is correct
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) {
-    return res.status(400).json({ passwordError: 'Invalid Password' });
+    return res.status(400).send({ err: 'Invalid Password' });
   }
 
-  //create and sign user token
+  // create and sign user token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.json({
-    username: user.username,
-    token: token,
+  res.send({
+    user: {
+      username: user.username,
+      token,
+    },
   });
 };
