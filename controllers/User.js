@@ -21,10 +21,11 @@ exports.create = async (req, res) => {
 
   try {
     await user.save();
+    // eslint-disable-next-line no-underscore-dangle
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-    res.send({ user: { username: user.username, token } });
+    return res.send({ user: { username: user.username, token } });
   } catch (err) {
-    res.status(400).json(err);
+    return res.status(400).json(err);
   }
 };
 
@@ -42,8 +43,9 @@ exports.login = async (req, res) => {
   }
 
   // create and sign user token
+  // eslint-disable-next-line no-underscore-dangle
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.send({
+  return res.send({
     user: {
       username: user.username,
       token,
