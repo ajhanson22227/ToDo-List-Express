@@ -13,6 +13,11 @@ const projectSchema = new mongoose.Schema({
     min: 1,
     max: 255,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   tasks: [
     {
       type: mongoose.Schema.Types.ObjectId,
