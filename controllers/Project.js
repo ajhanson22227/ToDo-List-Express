@@ -23,7 +23,7 @@ exports.createProjects = async (req, res) => {
   try {
     await project.save();
     // eslint-disable-next-line no-underscore-dangle
-    return;
+    return res.json(project);
   } catch (err) {
     res.status(400).json(err);
   }
