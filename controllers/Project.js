@@ -9,6 +9,12 @@ exports.getProjects = async (req, res) => {
   res.json(projects);
 };
 
+exports.getProject = async (req, res) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+  res.json(project);
+};
+
 exports.createProjects = async (req, res) => {
   const usertoken = req.header('user-token');
   const verified = jwt.verify(usertoken, process.env.TOKEN_SECRET);
