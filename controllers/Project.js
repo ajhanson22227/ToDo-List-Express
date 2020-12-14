@@ -1,12 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 const jwt = require('jsonwebtoken');
 const Project = require('../models/Project');
-const User = require('../models/User');
 
-exports.getProjects = async (req, res, next) => {
+exports.getProjects = async (req, res) => {
   const usertoken = req.header('user-token');
   const verified = jwt.verify(usertoken, process.env.TOKEN_SECRET);
-  // eslint-disable-next-line quote-props
   const projects = await Project.find({ user: verified._id });
   res.json(projects);
 };
@@ -25,6 +23,11 @@ exports.createProjects = async (req, res) => {
     // eslint-disable-next-line no-underscore-dangle
     return res.json(project);
   } catch (err) {
-    res.status(400).json(err);
+    return res.status(400).json(err);
   }
+};
+
+exports.deleteProject = async (req, res) => {
+  const { id } = req.params;
+  await Project.findByIdAndDelete(id);
 };
