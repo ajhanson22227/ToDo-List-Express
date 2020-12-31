@@ -18,3 +18,9 @@ exports.create = async (req, res) => {
     res.json(err);
   }
 };
+
+exports.delete = async (req, res) => {
+  const { taskid } = req.params;
+  await Project.updateOne({ tasks: taskid }, { $pull: { tasks: taskid } });
+  await Task.findByIdAndDelete(taskid);
+};
