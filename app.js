@@ -52,6 +52,14 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  res.append('Access-Control-Allow-Headers', 'user-token');
+  next();
+});
+
 // error handler
 // eslint-disable-next-line prefer-arrow-callback
 app.use(function (err, req, res) {
