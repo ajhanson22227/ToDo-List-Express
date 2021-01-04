@@ -17,6 +17,10 @@ const taskSchema = new mongoose.Schema({
     ref: 'Project',
     required: true,
   },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Task', taskSchema);
