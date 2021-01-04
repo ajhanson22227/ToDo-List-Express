@@ -7,7 +7,6 @@ exports.create = async (req, res) => {
     priority: req.body.priority,
     project: req.body.project,
   });
-
   const project = await Project.findById(req.body.project);
   project.tasks.push(task);
   try {
@@ -23,4 +22,10 @@ exports.delete = async (req, res) => {
   const { taskid } = req.params;
   await Project.updateOne({ tasks: taskid }, { $pull: { tasks: taskid } });
   await Task.findByIdAndDelete(taskid);
+};
+
+exports.update = async (req, res) => {
+  let task = await Task.findById(req.body._id);
+  task.completed = req.body.completed;
+  await Task.findByIdAndUpdate(req.body._id, task);
 };
