@@ -33,6 +33,10 @@ exports.create = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  res.append('Access-Control-Allow-Headers', 'user-token');
   // check for username in db
   const user = await User.findOne({ username: req.body.username });
   if (!user) {
