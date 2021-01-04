@@ -25,12 +25,8 @@ const app = express();
 
 const cors = require('cors');
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3001',
-//   }),
-// );
-app.options('*', cors());
+app.use(cors());
+
 //  ROUTES
 const userRouter = require('./routes/user');
 const projectRouter = require('./routes/project');

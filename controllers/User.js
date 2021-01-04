@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 exports.create = async (req, res) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
   // check if username exists
   const usernameExist = await User.findOne({
     username: req.body.username,
