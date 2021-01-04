@@ -25,7 +25,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  let task = await Task.findById(req.body._id);
+  const task = await Task.findById(req.body._id);
   task.completed = req.body.completed;
   await Task.findByIdAndUpdate(req.body._id, task);
 };
