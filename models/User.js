@@ -13,13 +13,6 @@ const userSchema = new mongoose.Schema({
     min: 1,
     max: 255,
   },
-  projects: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Project',
-      required: false,
-    },
-  ],
 });
 
 module.exports = mongoose.model('User', userSchema);
